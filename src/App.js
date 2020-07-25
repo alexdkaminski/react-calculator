@@ -8,30 +8,27 @@ function App() {
   // Operation functions
 
   const multiply = (a,b) => {
-    return a * b;
+    return a * b
   }
 
   const divide = (a,b) => {
-      return a / b;
+    return a / b
   }
 
   const add = (a,b) => {
-      return a + b;
+    return a + b
   }
 
   const subtract = (a,b) => {
-      return a - b;
+    return a - b
   }
 
   const handleNumberClick = (e) => {
     const number = e.target.textContent
-    console.log(display)
     const lastElement = display[display.length - 1]
-    console.log(lastElement)
     if (display[0] === '0') {
       setDisplay([number])
-    } else if (lastElement === '+' || lastElement === '-' ||lastElement === '*' ||lastElement === '/') {
-      console.log('operator')
+    } else if (lastElement === '+' || lastElement === '-' ||lastElement === 'x' ||lastElement === '/') {
       setDisplay(display.concat(number))
     }
     else {
@@ -44,8 +41,59 @@ function App() {
   const handleOperatorClick = (e) => {
     const operator = e.target.textContent
     setDisplay(display.concat(operator))
-
-    // setOperation([display.join()].concat(operator))
+    let result
+    if (operator === '=') {
+      // Evaluate formula
+      const numberArray = display.map(element =>
+        element >= 0 ? parseInt(element) : element
+      )
+      numberArray.forEach((element,index) => {
+        switch (element) {
+          case '+':
+            console.log('Addition detected')
+            // If we already have a result, add second number to result
+            if (result) {
+              console.log(`We have a result, adding ${result} to ${numberArray[index+1]}`)
+              result = add(result,numberArray[index+1])
+            // If we don't have a result, add first number to second number
+            } else {
+              console.log(`We don't have a result, adding ${numberArray[index-1]} to ${numberArray[index+1]}`)
+              result = add(numberArray[index-1],numberArray[index+1])
+            }
+            console.log(`Result: ${result}`)
+            break;
+          case '-':
+            console.log('Subtraction detected')
+            // If we already have a result, subtract second number from result
+            if (result) {
+              console.log(`We have a result, subtracting ${numberArray[index+1]} from ${result}`)
+              result = subtract(result,numberArray[index+1])
+            // If we don't have a result, subtract the second number from the first number
+            } else {
+              console.log(`We don't have a result, subtracting ${numberArray[index+1]} from ${numberArray[index-1]}`)
+              result = subtract(numberArray[index-1],numberArray[index+1])
+            }
+            console.log(`Result: ${result}`)
+            break;
+          case 'x':
+            console.log('Multiplication detected')
+            // If we already have a result, multiply result by second number
+            if (result) {
+              console.log(`We have a result, multiplying ${result} by ${numberArray[index+1]}`)
+              result = multiply(result,numberArray[index+1])
+            // If we don't have a result, multiply first number by second number
+            } else {
+              console.log(`We don't have a result, multiplying ${numberArray[index+1]} by ${numberArray[index-1]}`)
+              result = multiply(numberArray[index-1],numberArray[index+1])
+            }
+            console.log(`Result: ${result}`)
+            break;
+          default:
+            break;
+        }
+      })
+      setDisplay([result.toString()])
+    }
   }
 
   const handleDecimalClick = (e) => {
