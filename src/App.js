@@ -44,54 +44,86 @@ function App() {
     let result
     if (operator === '=') {
       // Evaluate formula
-      const numberArray = display.map(element =>
+      let numberArray = display.map(element =>
         element >= 0 ? parseInt(element) : element
       )
-      numberArray.forEach((element,index) => {
-        switch (element) {
-          case '+':
-            console.log('Addition detected')
-            // If we already have a result, add second number to result
-            if (result) {
-              console.log(`We have a result, adding ${result} to ${numberArray[index+1]}`)
-              result = add(result,numberArray[index+1])
-            // If we don't have a result, add first number to second number
-            } else {
-              console.log(`We don't have a result, adding ${numberArray[index-1]} to ${numberArray[index+1]}`)
-              result = add(numberArray[index-1],numberArray[index+1])
-            }
-            console.log(`Result: ${result}`)
-            break;
-          case '-':
-            console.log('Subtraction detected')
-            // If we already have a result, subtract second number from result
-            if (result) {
-              console.log(`We have a result, subtracting ${numberArray[index+1]} from ${result}`)
-              result = subtract(result,numberArray[index+1])
-            // If we don't have a result, subtract the second number from the first number
-            } else {
-              console.log(`We don't have a result, subtracting ${numberArray[index+1]} from ${numberArray[index-1]}`)
-              result = subtract(numberArray[index-1],numberArray[index+1])
-            }
-            console.log(`Result: ${result}`)
-            break;
-          case 'x':
-            console.log('Multiplication detected')
-            // If we already have a result, multiply result by second number
-            if (result) {
-              console.log(`We have a result, multiplying ${result} by ${numberArray[index+1]}`)
-              result = multiply(result,numberArray[index+1])
-            // If we don't have a result, multiply first number by second number
-            } else {
-              console.log(`We don't have a result, multiplying ${numberArray[index+1]} by ${numberArray[index-1]}`)
-              result = multiply(numberArray[index-1],numberArray[index+1])
-            }
-            console.log(`Result: ${result}`)
-            break;
-          default:
-            break;
+
+      // Loop through checking for multiplication
+      for (let i = numberArray.length - 1; i >= 0; i--) {
+        if (numberArray[i] === 'x') {
+          console.log('Multiplication detected')
+          // If we already have a result, multiply result by second number
+          // if (result) {
+          //   console.log(`We have a result, multiplying ${result} by ${numberArray[i+1]}`)
+          //   result = multiply(result,numberArray[i+1])
+          // // If we don't have a result, multiply first number by second number
+          // } else {
+          console.log(`Multiplying ${numberArray[i-1]} by ${numberArray[i+1]}`)
+          result = multiply(numberArray[i-1],numberArray[i+1])
+
+          console.log(`Result: ${result}`)
+          console.log(`Old number array: ${numberArray}`)
+          numberArray.splice(i-1,3,result)
+          console.log(`New number array: ${numberArray}`)
         }
-      })
+      }
+
+      // Loop through checking for division
+      for (let i = numberArray.length - 1; i >= 0; i--) {
+        if (numberArray[i] === '/') {
+          console.log('Division detected')
+
+          // If we already have a result, divide result by second number
+          console.log(`We don't have a result, dividing ${numberArray[i-1]} by ${numberArray[i+1]}`)
+          result = divide(numberArray[i-1],numberArray[i+1])
+
+          console.log(`Result: ${result}`)
+          console.log(`Old number array: ${numberArray}`)
+          numberArray.splice(i-1,3,result)
+          console.log(`New number array: ${numberArray}`)
+        }
+      }
+
+      // Loop through checking for addition
+      for (let i = numberArray.length - 1; i >= 0; i--) {
+        if (numberArray[i] === '+') {
+          console.log('Addition detected')
+          // If we already have a result, add second number to result
+          // if (result) {
+          //   console.log(`We have a result, adding ${result} to ${numberArray[i+1]}`)
+          //   result = add(result,numberArray[i+1])
+          // // If we don't have a result, add first number to second number
+          // } else {
+            console.log(`We don't have a result, adding ${numberArray[i-1]} to ${numberArray[i+1]}`)
+            result = add(numberArray[i-1],numberArray[i+1])
+
+            console.log(`Result: ${result}`)
+            console.log(`Old number array: ${numberArray}`)
+            numberArray.splice(i-1,3,result)
+            console.log(`New number array: ${numberArray}`)
+        }
+      }
+      // Loop through checking for subtraction
+      for (let i = numberArray.length - 1; i >= 0; i--) {
+        if (numberArray[i] === '-') {
+          console.log('Subtraction detected')
+          // If we already have a result, subtract second number from result
+          // if (result) {
+          //   console.log(`We have a result, subtracting ${numberArray[i+1]} from ${result}`)
+          //   result = subtract(result,numberArray[i+1])
+          // // If we don't have a result, subtract the second number from the first number
+          // } else {
+            console.log(`We don't have a result, subtracting ${numberArray[i+1]} from ${numberArray[i-1]}`)
+            result = subtract(numberArray[i-1],numberArray[i+1])
+
+
+            console.log(`Result: ${result}`)
+            console.log(`Old number array: ${numberArray}`)
+            numberArray.splice(i-1,3,result)
+            console.log(`New number array: ${numberArray}`)
+        }
+      }
+
       setDisplay([result.toString()])
     }
   }
