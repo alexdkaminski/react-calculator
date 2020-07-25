@@ -292,10 +292,10 @@ function App() {
   }
 
   return (
-    <div className="bg-gray-500 flex h-screen">
+    <div className="bg-light-blue flex h-screen">
         <div className="max-w-md m-auto container text-3xl">
-          <div className="bg-blue-800 p-10 rounded-lg shadow-2xl">
-            <div id="display" className="text-5xl pr-4 bg-white mb-5 text-right overflow-hidden bg-green-100">
+          <div className="bg-blue-800 p-10 rounded-lg shadow-2xl mx-4">
+            <div id="display" className="text-5xl pr-4 bg-white mb-5 text-right overflow-hidden bg-powder-blue">
               {display}
             </div>
             <div className="grid grid-cols-4 gap-4">
