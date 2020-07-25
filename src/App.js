@@ -299,25 +299,25 @@ function App() {
               {display}
             </div>
             <div className="grid grid-cols-4 gap-4">
-              <div id="seven" onClick={handleNumberClick} className="bg-gray-300 hover:bg-blue-100 p-4 border-b-4 border-blue-700 hover:border-blue-500 rounded text-center">7</div>
-              <div id="eight" onClick={handleNumberClick} className="bg-gray-300 hover:bg-blue-100 p-4 border-b-4 border-blue-700 hover:border-blue-500 rounded text-center">8</div>
-              <div id="nine" onClick={handleNumberClick} className="bg-gray-300 hover:bg-blue-100 p-4 border-b-4 border-blue-700 hover:border-blue-500 rounded text-center">9</div>
+              <div id="seven" onClick={handleNumberClick} className="bg-gray-300 hover:bg-blue-100 p-4 border-b-4 border-blue-400 hover:border-blue-500 rounded text-center">7</div>
+              <div id="eight" onClick={handleNumberClick} className="bg-gray-300 hover:bg-blue-100 p-4 border-b-4 border-blue-400 hover:border-blue-500 rounded text-center">8</div>
+              <div id="nine" onClick={handleNumberClick} className="bg-gray-300 hover:bg-blue-100 p-4 border-b-4 border-blue-400 hover:border-blue-500 rounded text-center">9</div>
               <div id="add" onClick={handleOperatorClick} className="bg-blue-500 hover:bg-blue-400 text-white p-4 border-b-4 border-blue-700 hover:border-blue-500 rounded text-center font-bold">+</div>
-              <div id="four" onClick={handleNumberClick} className="bg-gray-300 hover:bg-blue-100 p-4 border-b-4 border-blue-700 hover:border-blue-500 rounded text-center">4</div>
-              <div id="five" onClick={handleNumberClick} className="bg-gray-300 hover:bg-blue-100 p-4 border-b-4 border-blue-700 hover:border-blue-500 rounded text-center">5</div>
-              <div id="six" onClick={handleNumberClick} className="bg-gray-300 hover:bg-blue-100 p-4 border-b-4 border-blue-700 hover:border-blue-500 rounded text-center">6</div>
+              <div id="four" onClick={handleNumberClick} className="bg-gray-300 hover:bg-blue-100 p-4 border-b-4 border-blue-400 hover:border-blue-500 rounded text-center">4</div>
+              <div id="five" onClick={handleNumberClick} className="bg-gray-300 hover:bg-blue-100 p-4 border-b-4 border-blue-400 hover:border-blue-500 rounded text-center">5</div>
+              <div id="six" onClick={handleNumberClick} className="bg-gray-300 hover:bg-blue-100 p-4 border-b-4 border-blue-400 hover:border-blue-500 rounded text-center">6</div>
               <div id="subtract" onClick={handleOperatorClick} className="bg-blue-500 hover:bg-blue-400 text-white p-4 border-b-4 border-blue-700 hover:border-blue-500 rounded text-center font-bold">-</div>
-              <div id="one" onClick={handleNumberClick} className="bg-gray-300 hover:bg-blue-100 p-4 border-b-4 border-blue-700 hover:border-blue-500 rounded text-center">1</div>
-              <div id="two" onClick={handleNumberClick} className="bg-gray-300 hover:bg-blue-100 p-4 border-b-4 border-blue-700 hover:border-blue-500 rounded text-center">2</div>
-              <div id="three" onClick={handleNumberClick} className="bg-gray-300 hover:bg-blue-100 p-4 border-b-4 border-blue-700 hover:border-blue-500 rounded text-center">3</div>
+              <div id="one" onClick={handleNumberClick} className="bg-gray-300 hover:bg-blue-100 p-4 border-b-4 border-blue-400 hover:border-blue-500 rounded text-center">1</div>
+              <div id="two" onClick={handleNumberClick} className="bg-gray-300 hover:bg-blue-100 p-4 border-b-4 border-blue-400 hover:border-blue-500 rounded text-center">2</div>
+              <div id="three" onClick={handleNumberClick} className="bg-gray-300 hover:bg-blue-100 p-4 border-b-4 border-blue-400 hover:border-blue-500 rounded text-center">3</div>
               <div id="multiply" onClick={handleOperatorClick} className="bg-blue-500 hover:bg-blue-400 text-white p-4 border-b-4 border-blue-700 hover:border-blue-500 rounded text-center font-bold">x</div>
-              <div id="decimal" onClick={handleDecimalClick} className="bg-gray-300 hover:bg-blue-100 p-4 border-b-4 border-blue-700 hover:border-blue-500 rounded text-center">.</div>
-              <div id="zero" onClick={handleNumberClick} className="bg-gray-300 hover:bg-blue-100 p-4 border-b-4 border-blue-700 hover:border-blue-500 rounded text-center col-span-2">0</div>
+              <div id="decimal" onClick={handleDecimalClick} className="bg-gray-300 hover:bg-blue-100 p-4 border-b-4 border-blue-400 hover:border-blue-500 rounded text-center">.</div>
+              <div id="zero" onClick={handleNumberClick} className="bg-gray-300 hover:bg-blue-100 p-4 border-b-4 border-blue-400 hover:border-blue-500 rounded text-center col-span-2">0</div>
               <div id="divide" onClick={handleOperatorClick} className="bg-blue-500 hover:bg-blue-400 text-white p-4 border-b-4 border-blue-700 hover:border-blue-500 rounded text-center font-bold">/</div>
             </div>
             <div className="grid grid-cols-2 gap-4 mt-4">
-              <div id="clear" onClick={handleClearClick} className="p-4 bg-red-200 text-center">Clear</div>
-              <div id="equals" onClick={handleOperatorClick} className="p-4 bg-green-200 text-center">=</div>
+              <div id="clear" onClick={handleClearClick} className="p-4 bg-red-200 border-b-4 border-red-400 hover:border-red-300 rounded text-center font-bold">AC</div>
+              <div id="equals" onClick={handleOperatorClick} className="p-4 bg-green-200 border-b-4 border-green-500 hover:border-green-400 rounded text-center font-bold">=</div>
             </div>
           </div>
         </div>
