@@ -3,41 +3,22 @@ import './tailwind.output.css'
 
 function App() {
   const [display, setDisplay] = useState(['0'])
-  // const [operation, setOperation] = useState([])
 
   // Operation functions
 
-  const multiply = (a,b) => {
-    return a * b
-  }
+  const multiply = (a, b) => (a * b)
 
-  const divide = (a,b) => {
-    return a / b
-  }
+  const divide = (a, b) => (a / b)
 
-  const add = (a,b) => {
-    return a + b
-  }
+  const add = (a, b) => (a + b)
 
-  const subtract = (a,b) => {
-    return a - b
-  }
+  const subtract = (a, b) => (a - b)
 
-  const isOperator = (a) => {
-    if (a === 'x' || a === '/' || a === '+' || a === '-') {
-      return true
-    } else {
-      return false
-    }
-  }
+  const isOperator = a => (a === 'x' || a === '/' || a === '+' || a === '-') ? true : false
 
-  const isNegative = (a) => {
-    if (a === '-') {
-      return true
-    } else {
-      return false
-    }
-  }
+  const isNumber = a => (Number.isFinite(a))
+
+  const isNegative = a => a === '-' ? true : false
 
   const handleNumberClick = (e) => {
     const number = e.target.textContent
@@ -73,134 +54,221 @@ function App() {
       // Loop through checking for multiplication
       for (let i = numberArray.length - 1; i >= 0; i--) {
         if (numberArray[i] === 'x') {
-          console.log('Multiplication detected')
-          // Check for preceding operator
-          if (isOperator(numberArray[i-1])) {
-            console.log(`Preceding operator found, multiplying ${numberArray[i-2]} by ${numberArray[i+1]}`)
-            result = multiply(numberArray[i-2],numberArray[i+1])
-            console.log(`Result: ${result}`)
-            console.log(`Old number array: ${numberArray}`)
-            numberArray.splice(i-2,4,result)
-            console.log(`New number array: ${numberArray}`)
-          } else if (isNegative(numberArray[i+1])) {
-            numberArray[i+2] = -Math.abs(numberArray[i+2])
-            console.log('Negative detected')
-            console.log(numberArray[i+2])
-            result = multiply(numberArray[i-1],numberArray[i+2])
-            console.log(`Result: ${result}`)
-            console.log(`Old number array: ${numberArray}`)
-            numberArray.splice(i-3,4,result)
-            console.log(`New number array: ${numberArray}`)
-          } else if (!isOperator(numberArray[i+1])) {
-            console.log(`Multiplying ${numberArray[i-1]} by ${numberArray[i+1]}`)
-            result = multiply(numberArray[i-1],numberArray[i+1])
-            console.log(`Result: ${result}`)
-            console.log(`Old number array: ${numberArray}`)
-            numberArray.splice(i-1,3,result)
+
+          // Check if this operator is followed by a number
+          if (isNumber(numberArray[i + 1])) {
+            if (isNumber(numberArray[i - 1])) {
+              // This operator has a number to the left and right ie. 4x5
+              result = multiply(numberArray[i - 1], numberArray[i + 1])
+              numberArray.splice(i - 1, 3, result)
+            } else if (isNumber(numberArray[i-2])) {
+              // This operator has a number two places to the left and one to the right ie. 4+x5
+              result = multiply(numberArray[i - 2], numberArray[i + 1])
+              numberArray.splice(i - 2, 4, result)
+            } else if (isNumber(numberArray[i-3])) {
+              // This operator has a number three places to the left and one to the right ie. 4-+x5
+              result = multiply(numberArray[i - 3], numberArray[i + 1])
+              numberArray.splice(i - 3, 5, result)
+            }
+            // This operator is followed by a negative symbol then a number ie x-5
+          } else if (isNegative(numberArray[i + 1]) && isNumber(numberArray[i + 2])) {
+            numberArray[i + 2] = -Math.abs(numberArray[i + 2])
+            // This operator has a number to the left and is followed by a negative symbol then a number ie 4x-5
+            if (isNumber(numberArray[i - 1])) {
+              result = multiply(numberArray[i - 1], numberArray[i + 2])
+              numberArray.splice(i - 3, 4, result)
+            // This operator has a number two places to the left and is followed by a negative symbol then a number ie 4+x-5
+            } else if (isNumber(numberArray[i - 2])) {
+              result = multiply(numberArray[i - 2], numberArray[i + 2])
+              numberArray.splice(i - 4, 5, result)
+            }
           }
+
+          // if (!isOperator(numberArray[i + 1])) {
+          //   // if (!isOperator(numberArray[i + 2])) {
+          //   // }
+          //   console.log('no following')
+          //   result = multiply(numberArray[i - 1], numberArray[i + 1])
+          //   numberArray.splice(i - 1, 3, result)
+          // }
+          // if (isOperator(numberArray[i - 1])) {
+          //   // Check for second preceding operator
+          //   if (isOperator(numberArray[i - 2])) {
+          //     result = multiply(numberArray[i - 3], numberArray[i + 1])
+          //     numberArray.splice(i - 3, 5, result)
+          //   } else {
+          //     result = multiply(numberArray[i - 2], numberArray[i + 1])
+          //     numberArray.splice(i - 2, 4, result)
+          //   }
+
+          // // Check for negative number
+          // } else if (isNegative(numberArray[i + 1])) {
+          //   numberArray[i + 2] = -Math.abs(numberArray[i + 2])
+          //   result = multiply(numberArray[i - 1], numberArray[i + 2])
+          //   numberArray.splice(i - 3, 4, result)
+          // // Check for no following operator
+          // }
         }
-      }
+     }
 
       // Loop through checking for division
       for (let i = numberArray.length - 1; i >= 0; i--) {
         if (numberArray[i] === '/') {
-          console.log('Division detected')
-          // Check for preceding operator
-          if (isOperator(numberArray[i-1])) {
-            console.log(`Dividing ${numberArray[i-2]} by ${numberArray[i+1]}`)
-            result = divide(numberArray[i-2],numberArray[i+1])
-            console.log(`Result: ${result}`)
-            console.log(`Old number array: ${numberArray}`)
-            numberArray.splice(i-2,4,result)
-            console.log(`New number array: ${numberArray}`)
-          } else if (isNegative(numberArray[i+1])) {
-            numberArray[i+2] = -Math.abs(numberArray[i+2])
-            console.log('Negative detected')
-            console.log(numberArray[i+2])
-            result = divide(numberArray[i-1],numberArray[i+2])
-            console.log(`Result: ${result}`)
-            console.log(`Old number array: ${numberArray}`)
-            numberArray.splice(i-3,4,result)
-            console.log(`New number array: ${numberArray}`)
-          } else if (!isOperator(numberArray[i+1])) {
-            console.log(`Dividing ${numberArray[i-1]} by ${numberArray[i+1]}`)
-            result = divide(numberArray[i-1],numberArray[i+1])
-            console.log(`Result: ${result}`)
-            console.log(`Old number array: ${numberArray}`)
-            numberArray.splice(i-1,3,result)
-            console.log(`New number array: ${numberArray}`)
+
+           // Check if this operator is followed by a number
+           if (isNumber(numberArray[i + 1])) {
+            if (isNumber(numberArray[i - 1])) {
+              // This operator has a number to the left and right ie. 4/5
+              result = divide(numberArray[i - 1], numberArray[i + 1])
+              numberArray.splice(i - 1, 3, result)
+            } else if (isNumber(numberArray[i-2])) {
+              // This operator has a number two places to the left and one to the right ie. 4+x5
+              result = divide(numberArray[i - 2], numberArray[i + 1])
+              numberArray.splice(i - 2, 4, result)
+            } else if (isNumber(numberArray[i-3])) {
+              // This operator has a number three places to the left and one to the right ie. 4-+x5
+              result = divide(numberArray[i - 3], numberArray[i + 1])
+              numberArray.splice(i - 3, 5, result)
+            }
+            // This operator is followed by a negative symbol then a number ie x-5
+          } else if (isNegative(numberArray[i + 1]) && isNumber(numberArray[i + 2])) {
+            numberArray[i + 2] = -Math.abs(numberArray[i + 2])
+            // This operator has a number to the left and is followed by a negative symbol then a number ie 4x-5
+            if (isNumber(numberArray[i - 1])) {
+              result = divide(numberArray[i - 1], numberArray[i + 2])
+              numberArray.splice(i - 3, 4, result)
+            // This operator has a number two places to the left and is followed by a negative symbol then a number ie 4+x-5
+            } else if (isNumber(numberArray[i - 2])) {
+              result = divide(numberArray[i - 2], numberArray[i + 2])
+              numberArray.splice(i - 4, 5, result)
+            }
           }
+
+          // // Check for preceding operator
+          // if (isOperator(numberArray[i - 1])) {
+          //   // Check for second preceding operator
+          //   if (isOperator(numberArray[i - 2])) {
+          //     result = divide(numberArray[i - 3], numberArray[i + 1])
+          //     numberArray.splice(i - 3, 5, result)
+          //   } else {
+          //     result = divide(numberArray[i - 2], numberArray[i + 1])
+          //     numberArray.splice(i - 2, 4, result)
+          // }
+          // } else if (isNegative(numberArray[i + 1])) {
+          //   numberArray[i + 2] = -Math.abs(numberArray[i + 2])
+          //   result = divide(numberArray[i - 1], numberArray[i + 2])
+          //   numberArray.splice(i - 3, 4, result)
+          // } else if (!isOperator(numberArray[i + 1])) {
+          //   result = divide(numberArray[i - 1], numberArray[i + 1])
+          //   numberArray.splice(i - 1, 3, result)
+          // }
         }
       }
 
       // Loop through checking for addition
-      for (let i = numberArray.length - 1; i >= 0; i--) {
+      for (let i = 0; i <= numberArray.length; i++) {
         if (numberArray[i] === '+') {
-          console.log('Addition detected')
-          // Check for preceding operator
-          if (isOperator(numberArray[i-1])) {
-            console.log(`Adding ${numberArray[i-2]} to ${numberArray[i+1]}`)
-            result = add(numberArray[i-2],numberArray[i+1])
-            console.log(`Result: ${result}`)
-            console.log(`Old number array: ${numberArray}`)
-            numberArray.splice(i-2,4,result)
-            console.log(`New number array: ${numberArray}`)
-          } else if (isNegative(numberArray[i+1])) {
-            numberArray[i+2] = -Math.abs(numberArray[i+2])
-            console.log('Negative detected')
-            console.log(numberArray[i+2])
-            result = add(numberArray[i-1],numberArray[i+2])
-            console.log(`Result: ${result}`)
-            console.log(`Old number array: ${numberArray}`)
-            numberArray.splice(i-3,4,result)
-            console.log(`New number array: ${numberArray}`)
-          } else if (!isOperator(numberArray[i+1])) {
-            console.log(`Adding ${numberArray[i-1]} to ${numberArray[i+1]}`)
-            result = add(numberArray[i-1],numberArray[i+1])
-            console.log(`Result: ${result}`)
-            console.log(`Old number array: ${numberArray}`)
-            numberArray.splice(i-1,3,result)
-            console.log(`New number array: ${numberArray}`)
+          // Check if this operator is followed by a number
+          if (isNumber(numberArray[i + 1])) {
+            if (isNumber(numberArray[i - 1])) {
+              // This operator has a number to the left and right ie. 4/5
+              result = add(numberArray[i - 1], numberArray[i + 1])
+              numberArray.splice(i - 1, 3, result)
+              i--
+            } else if (isNumber(numberArray[i-2])) {
+              // This operator has a number two places to the left and one to the right ie. 4+x5
+              result = add(numberArray[i - 2], numberArray[i + 1])
+              numberArray.splice(i - 2, 4, result)
+            } else if (isNumber(numberArray[i-3])) {
+              // This operator has a number three places to the left and one to the right ie. 4-+x5
+              result = add(numberArray[i - 3], numberArray[i + 1])
+              numberArray.splice(i - 3, 5, result)
+            }
+            // This operator is followed by a negative symbol then a number ie x-5
+          } else if (isNegative(numberArray[i + 1]) && isNumber(numberArray[i + 2])) {
+            numberArray[i + 2] = -Math.abs(numberArray[i + 2])
+            // This operator has a number to the left and is followed by a negative symbol then a number ie 4x-5
+            if (isNumber(numberArray[i - 1])) {
+              result = add(numberArray[i - 1], numberArray[i + 2])
+              numberArray.splice(i - 3, 4, result)
+            // This operator has a number two places to the left and is followed by a negative symbol then a number ie 4+x-5
+            } else if (isNumber(numberArray[i - 2])) {
+              result = add(numberArray[i - 2], numberArray[i + 2])
+              numberArray.splice(i - 4, 5, result)
+            }
+          }
+
+          // // Check for preceding operator
+          // if (isOperator(numberArray[i - 1])) {
+          //   // Check for second preceding operator
+          //   if (isOperator(numberArray[i - 2])) {
+          //     result = add(numberArray[i - 3], numberArray[i + 1])
+          //     numberArray.splice(i - 3, 5, result)
+          //   } else {
+          //   result = add(numberArray[i - 2], numberArray[i + 1])
+          //   numberArray.splice(i - 2, 4, result)
+          // }
+          // } else if (isNegative(numberArray[i + 1])) {
+          //   numberArray[i + 2] = -Math.abs(numberArray[i + 2])
+          //   result = add(numberArray[i - 1], numberArray[i + 2])
+          //   numberArray.splice(i - 3, 4, result)
+          // } else if (!isOperator(numberArray[i + 1])) {
+          //   result = add(numberArray[i - 1], numberArray[i + 1])
+          //   numberArray.splice(i - 1, 3, result)
+          //   i--
+          // }
+        // Check if negative
+        } else if (numberArray[i] === '-') {
+          // Check if this operator is followed by a number
+          if (isNumber(numberArray[i + 1])) {
+            if (isNumber(numberArray[i - 1])) {
+              // This operator has a number to the left and right ie. 4+5
+              result = subtract(numberArray[i - 1], numberArray[i + 1])
+              numberArray.splice(i - 1, 3, result)
+              i--
+            } else if (isNumber(numberArray[i-2])) {
+              // This operator has a number two places to the left and one to the right ie. 4x+5
+              result = subtract(numberArray[i - 2], numberArray[i + 1])
+              numberArray.splice(i - 2, 4, result)
+            } else if (isNumber(numberArray[i-3])) {
+              // This operator has a number three places to the left and one to the right ie. 4-x+5
+              result = subtract(numberArray[i - 3], numberArray[i + 1])
+              numberArray.splice(i - 3, 5, result)
+            }
+            // This operator is followed by a negative symbol then a number ie x-5
+          } else if (isNegative(numberArray[i + 1]) && isNumber(numberArray[i + 2])) {
+            numberArray[i + 2] = -Math.abs(numberArray[i + 2])
+            // This operator has a number to the left and is followed by a negative symbol then a number ie 4x-5
+            if (isNumber(numberArray[i - 1])) {
+              result = subtract(numberArray[i - 1], numberArray[i + 2])
+              numberArray.splice(i - 3, 4, result)
+            // This operator has a number two places to the left and is followed by a negative symbol then a number ie 4+x-5
+            } else if (isNumber(numberArray[i - 2])) {
+              result = subtract(numberArray[i - 2], numberArray[i + 2])
+              numberArray.splice(i - 4, 5, result)
+            }
           }
         }
-      }
-      // Loop through checking for subtraction
-      for (let i = numberArray.length - 1; i >= 0; i--) {
-        if (numberArray[i] === '-') {
-          console.log('Subtraction detected')
-          console.log(numberArray)
-          console.log(numberArray[i+1])
-          // Check if negative
-          if (isNegative(numberArray[i-1])) {
-            console.log(2)
-            numberArray[i+1] = -Math.abs(numberArray[i+1])
-            console.log('Negative detected')
-            console.log(numberArray[i+1])
-            console.log(`Subtracting ${numberArray[i+1]} from ${numberArray[i-2]}`)
-            result = subtract(numberArray[i-2],numberArray[i+1])
-            console.log(`Result: ${result}`)
-            console.log(`Old number array: ${numberArray}`)
-            numberArray.splice(i-3,4,result)
-            console.log(`New number array: ${numberArray}`)
-          // Check for preceding operator
-          } else if (isOperator(numberArray[i-1])) {
-            console.log(1)
-            console.log(`Subtracting ${numberArray[i+1]} from ${numberArray[i-2]}`)
-            result = subtract(numberArray[i-2],numberArray[i+1])
-            console.log(`Result: ${result}`)
-            console.log(`Old number array: ${numberArray}`)
-            numberArray.splice(i-2,4,result)
-            console.log(`New number array: ${numberArray}`)
-          } else if (!isOperator(numberArray[i+1])) {
-            console.log(3)
-            console.log(`Subtracting ${numberArray[i+1]} from ${numberArray[i-1]}`)
-            result = subtract(numberArray[i-1],numberArray[i+1])
-            console.log(`Result: ${result}`)
-            console.log(`Old number array: ${numberArray}`)
-            numberArray.splice(i-1,3,result)
-            console.log(`New number array: ${numberArray}`)
-          }
-        }
+          // if (isNegative(numberArray[i - 1])) {
+          //   // Check for second preceding operator
+          //   if (isOperator(numberArray[i - 2])) {
+          //     result = subtract(numberArray[i - 3], numberArray[i + 1])
+          //     numberArray.splice(i - 3, 5, result)
+          //   } else {
+          //     numberArray[i + 1] = -Math.abs(numberArray[i + 1])
+          //     result = subtract(numberArray[i - 2], numberArray[i + 1])
+          //     numberArray.splice(i - 3, 4, result)
+          // }
+          //   // Check for preceding operator
+          // } else if (isOperator(numberArray[i - 1])) {
+          //   result = subtract(numberArray[i - 2], numberArray[i + 1])
+          //   numberArray.splice(i - 2, 4, result)
+          // } else if (!isOperator(numberArray[i + 1])) {
+          //   result = subtract(numberArray[i - 1], numberArray[i + 1])
+          //   numberArray.splice(i - 1, 3, result)
+          //   i--
+          // }
+
       }
 
       setDisplay([result.toString()])
@@ -210,7 +278,9 @@ function App() {
   const handleDecimalClick = (e) => {
     const lastElement = display[display.length - 1]
 
-    if (lastElement !== '+' || lastElement !== '-' ||lastElement !== 'x' ||lastElement !== '/') {
+
+    if (!isOperator(lastElement) && lastElement.indexOf('.') <= 0) {
+
       const newArray = [...display]
       newArray[[newArray.length - 1]] += '.'
       setDisplay(newArray)
